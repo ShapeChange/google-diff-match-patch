@@ -21,6 +21,12 @@
 	</dependencies>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		
+		<!-- Required when building with Java 8, see 
+		     http://blog.joda.org/2014/02/turning-off-doclint-in-jdk-8-javadoc.html 
+		     for further details 
+		  -->
+        <additionalparam>-Xdoclint:none</additionalparam>
 	</properties>
 	<distributionManagement>
 		<repository>
