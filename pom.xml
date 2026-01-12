@@ -1,17 +1,66 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<groupId>net.shapechange</groupId>
 	<artifactId>diff-match-patch-20121119</artifactId>
-	<name>google diff match patch (based on official version from 19 Nov 2012)</name>
 	<version>1.0.1-SNAPSHOT</version>
-  <description>The Diff Match and Patch libraries offer robust algorithms to perform the operations required for synchronizing plain text.</description>
+
+	<!-- Project Information -->
+	<name>google diff match patch (based on official version from 19 Nov 2012)</name>
+	<description>The Diff Match and Patch libraries offer robust algorithms to
+		perform the operations required for synchronizing plain text.</description>
+	<url>https://github.com/ShapeChange/google-diff-match-patch</url>
+
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/ShapeChange/google-diff-match-patch/issues</url>
+	</issueManagement>
+
+	<licenses>
+		<license>
+			<name>Apache-2.0</name>
+			<url>https://www.apache.org/licenses/LICENSE-2.0</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Johannes Echterhoff</name>
+			<email>echterhoff@interactive-instruments.de</email>
+			<organization>interactive instruments</organization>
+			<organizationUrl>https://www.interactive-instruments.de</organizationUrl>
+		</developer>
+		<developer>
+			<name>Clemens Portele</name>
+			<email>portele@interactive-instruments.de</email>
+			<organization>interactive instruments</organization>
+			<organizationUrl>https://www.interactive-instruments.de</organizationUrl>
+		</developer>
+	</developers>
+
 	<scm>
-	  <url>https://github.com/ShapeChange/google-diff-match-patch</url>
-	  <connection>scm:git:https://github.com/ShapeChange/google-diff-match-patch.git</connection>
-	  <developerConnection>scm:git:https://github.com/ShapeChange/google-diff-match-patch.git</developerConnection>
-	  <tag>HEAD</tag>
-  </scm>
-	<dependencies>		
+		<url>https://github.com/ShapeChange/google-diff-match-patch</url>
+		<connection>
+			scm:git:https://github.com/ShapeChange/google-diff-match-patch.git</connection>
+		<developerConnection>
+			scm:git:https://github.com/ShapeChange/google-diff-match-patch.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+
+	<repositories>
+		<repository>
+			<id>central</id>
+			<name>Central Repository</name>
+			<url>https://repo.maven.apache.org/maven2</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -19,37 +68,42 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		
-		<!-- Required when building with Java 8, see 
-		     http://blog.joda.org/2014/02/turning-off-doclint-in-jdk-8-javadoc.html 
-		     for further details 
-		  -->
-        <additionalparam>-Xdoclint:none</additionalparam>
 	</properties>
-	<distributionManagement>
-		<repository>
-			<id>ftp-repository</id>
-			<url>ftp://shapechange.net/</url>
-		</repository>
-	</distributionManagement>
+
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
+				<version>3.14.1</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-					<encoding>UTF-8</encoding>
+					<release>21</release>
+					<showWarnings>true</showWarnings>
+					<showDeprecation>true</showDeprecation>
 				</configuration>
-			</plugin>			
+			</plugin>
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.12.0</version>
+				<configuration>
+					<doclint>-missing</doclint>
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>2.1.2</version>
+				<version>3.4.0</version>
 				<executions>
 					<execution>
 						<id>attach-sources</id>
@@ -63,62 +117,33 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.5</version>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>3.2.8</version>
 				<executions>
 					<execution>
-						<id>copy-resources1</id>
-						<phase>package</phase>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
 						<goals>
-							<goal>copy-resources</goal>
+							<goal>sign</goal>
 						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}/appassembler/lic</outputDirectory>
-							<resources>
-								<resource>
-									<directory>/</directory>
-									<includes>
-										<include>LICENSE</include>
-									</includes>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>					
-				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.2</version>
-				<configuration>
-					<descriptors>
-						<descriptor>assembly.xml</descriptor>
-					</descriptors>
-				</configuration>
-				<executions>
-					<execution>
-						<id>create-zip</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-						<configuration>
-							<appendAssemblyId>false</appendAssemblyId>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 			<plugin>
+				<groupId>org.sonatype.central</groupId>
+				<artifactId>central-publishing-maven-plugin</artifactId>
+				<version>0.10.0</version>
+				<extensions>true</extensions>
+				<configuration>
+					<publishingServerId>central</publishingServerId>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
-				<version>2.5.1</version>
+				<version>3.3.1</version>
 			</plugin>
 		</plugins>
-		<extensions>
-			<extension>
-				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-ftp</artifactId>
-				<version>2.2</version>
-			</extension>
-		</extensions>
 	</build>
 </project>
